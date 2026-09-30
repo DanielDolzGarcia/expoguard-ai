@@ -1,0 +1,12 @@
+{
+  "description": "Proyecto prebuild con app.config.ts dinámico y carpetas nativas generadas.",
+  "findings": [
+    { "ruleId": "native/generic-scheme", "file": "app.config.ts", "line": 9 },
+    { "ruleId": "native/android-allow-backup", "file": "app.config.ts", "line": 10, "note": "allowBackup no definido: Expo lo deja a true por defecto" },
+    { "ruleId": "native/dangerous-permissions", "file": "app.config.ts", "line": 12 },
+    { "ruleId": "native/android-allow-backup", "file": "android/app/src/main/AndroidManifest.xml", "line": 7 },
+    { "ruleId": "native/android-cleartext", "file": "android/app/src/main/AndroidManifest.xml", "line": 8 },
+    { "ruleId": "native/android-debuggable", "file": "android/app/src/main/AndroidManifest.xml", "line": 9 },
+    { "ruleId": "native/ios-ats-disabled", "file": "ios/PrebuildApp/Info.plist", "line": 9 }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "description": "Vulnerabilidades insertadas a propósito en vulnerable-app. El test e2e exige que se detecten todas (regla + fichero + línea).",
+  "findings": [
+    { "ruleId": "secrets/stripe-secret-key", "file": "app.json", "line": 39, "note": "Clave secreta de Stripe en extra (se publica en el manifiesto)" },
+    { "ruleId": "secrets/env-file-versioned", "file": ".env", "line": 1, "note": ".env sin .gitignore" },
+    { "ruleId": "secrets/expo-public-secret", "file": ".env", "line": 2, "note": "EXPO_PUBLIC_* se incrusta en el bundle" },
+    { "ruleId": "secrets/aws-access-key", "file": "src/config.ts", "line": 4 },
+    { "ruleId": "secrets/google-api-key", "file": "src/config.ts", "line": 6 },
+    { "ruleId": "secrets/generic-high-entropy", "file": "src/config.ts", "line": 8 },
+    { "ruleId": "secrets/private-key", "file": "src/config.ts", "line": 10 },
+
+    { "ruleId": "storage/async-storage-sensitive", "file": "src/storage/session.ts", "line": 6, "note": "accessToken" },
+    { "ruleId": "storage/sensitive-log", "file": "src/storage/session.ts", "line": 7 },
+    { "ruleId": "storage/async-storage-sensitive", "file": "src/storage/session.ts", "line": 11, "note": "clave resuelta desde la constante USER_KEY" },
+    { "ruleId": "storage/async-storage-write", "file": "src/storage/session.ts", "line": 15, "note": "preferencia de tema: candidato a falso positivo para el triaje de IA" },
+    { "ruleId": "storage/redux-persist-async-storage", "file": "src/store/index.ts", "line": 8 },
+
+    { "ruleId": "webview/dynamic-source-js", "file": "app/browser.tsx", "line": 8 },
+    { "ruleId": "deeplink/unvalidated-param-to-sink", "file": "app/browser.tsx", "line": 8 },
+    { "ruleId": "webview/origin-whitelist-wildcard", "file": "app/browser.tsx", "line": 9 },
+    { "ruleId": "webview/file-access", "file": "app/browser.tsx", "line": 10 },
+    { "ruleId": "webview/file-access", "file": "app/browser.tsx", "line": 11 },
+    { "ruleId": "webview/mixed-content", "file": "app/browser.tsx", "line": 12 },
+    { "ruleId": "deeplink/unvalidated-param-to-sink", "file": "app/checkout.tsx", "line": 12 },
+    { "ruleId": "webview/inject-javascript-dynamic", "file": "app/checkout.tsx", "line": 18 },
+
+    { "ruleId": "native/generic-scheme", "file": "app.json", "line": 6 },
+    { "ruleId": "native/android-allow-backup", "file": "app.json", "line": 9 },
+    { "ruleId": "native/dangerous-permissions", "file": "app.json", "line": 10 },
+    { "ruleId": "native/ios-ats-disabled", "file": "app.json", "line": 22 },
+    { "ruleId": "native/android-cleartext", "file": "app.json", "line": 32 },
+
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 7, "note": "axios 0.21.1" },
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 11, "note": "lodash 4.17.15" }
+  ]
+}
