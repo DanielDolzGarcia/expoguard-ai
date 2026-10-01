@@ -30,3 +30,7 @@ Para dudas concretas y textos se usa un nivel menor (1 o 2).
   - npm instaló versiones mayores más nuevas de lo previsto (Babel 8, TypeScript 6, Vitest 5, ESLint 10). Se eliminó `@types/babel__traverse` porque Babel 8 ya incluye sus tipos.
   - La CI de la pull request fallaba porque todavía no había código ni tests (`tsc` sin ficheros de entrada y Vitest sin tests). Se pidió al agente un `src/cli.ts` mínimo y un test que comprueba que las apps de prueba están bien formadas. En las issues #2 y #3 se sustituyen por las versiones reales.
   - `data/masvs.json`: la lista de controles MASVS y categorías del Mobile Top 10 la preparó el alumno a partir de la web de OWASP; el agente solo la pasó a JSON.
+
+### 2026-10-01 · Error al subir el repositorio a GitHub
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Automatización:** nivel 1. GitHub rechazó el primer push con «refusing to allow an OAuth App to create or update workflow `.github/workflows/ci.yml` without `workflow` scope». Se preguntó qué significaba; la solución (`gh auth refresh -s workflow`) la aplicó el alumno.
