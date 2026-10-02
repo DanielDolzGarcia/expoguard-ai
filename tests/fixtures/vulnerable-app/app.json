@@ -1,0 +1,42 @@
+{
+  "expo": {
+    "name": "VulnShop",
+    "slug": "vulnshop",
+    "version": "1.0.0",
+    "scheme": "myapp",
+    "android": {
+      "package": "com.example.vulnshop",
+      "allowBackup": true,
+      "permissions": [
+        "READ_SMS",
+        "READ_CONTACTS",
+        "ACCESS_FINE_LOCATION",
+        "CAMERA",
+        "SYSTEM_ALERT_WINDOW"
+      ]
+    },
+    "ios": {
+      "bundleIdentifier": "com.example.vulnshop",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsArbitraryLoads": true
+        }
+      }
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "apiUrl": "https://api.vulnshop.example",
+      "stripeSecretKey": "sk_live_FAKE00EXPOGUARD00000000000"
+    }
+  }
+}

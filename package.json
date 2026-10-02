@@ -1,0 +1,45 @@
+{
+  "name": "expoguard-ai",
+  "version": "0.2.0",
+  "description": "CLI que audita la seguridad del código fuente de apps React Native con Expo combinando reglas deterministas y modelos de lenguaje",
+  "type": "module",
+  "bin": {
+    "expoguard": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "data"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsx src/cli.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "ci": "npm run typecheck && npm run lint && npm run test:coverage && npm run build"
+  },
+  "author": "Daniel Dolz García",
+  "license": "MIT",
+  "dependencies": {
+    "@babel/parser": "^8.0.8",
+    "@babel/traverse": "^8.0.7",
+    "@babel/types": "^8.0.8",
+    "commander": "^15.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.19.2",
+    "@vitest/coverage-v8": "^5.0.5",
+    "eslint": "^10.13.0",
+    "eslint-plugin-security": "^4.2.0",
+    "globals": "^17.13.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.72.0",
+    "vitest": "^5.0.5"
+  }
+}

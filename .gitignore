@@ -1,0 +1,18 @@
+node_modules/
+dist/
+coverage/
+*.log
+.DS_Store
+
+# Variables de entorno y claves: nunca se versionan
+.env
+.env.*
+!.env.example
+
+# Salidas locales de la herramienta
+expoguard-report/
+.expoguard-cache/
+
+# Las fixtures SÍ se versionan aunque contengan ficheros .env de prueba
+!tests/fixtures/**/.env
+!tests/fixtures/**/.env.*
