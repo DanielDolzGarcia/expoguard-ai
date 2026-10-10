@@ -15,7 +15,15 @@ export default tseslint.config(
       globals: globals.node,
     },
     rules: {
-      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
+      '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_', ignoreRestSiblings: true }],
+    },
+  },
+  {
+    // Los tests crean ficheros temporales con rutas calculadas: falso positivo esperado.
+    files: ['tests/**/*.ts'],
+    rules: {
+      'security/detect-non-literal-fs-filename': 'off',
+      'security/detect-object-injection': 'off',
     },
   },
 );
