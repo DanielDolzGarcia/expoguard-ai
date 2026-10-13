@@ -22,7 +22,6 @@ function paint(style: Style, text: string): string {
 }
 
 function printFinding(f: Finding): void {
-  // eslint-disable-next-line security/detect-object-injection -- clave de tipo Severity
   const sev = paint(SEVERITY_STYLE[f.severity], `[${f.severity.toUpperCase()}]`.padEnd(10));
   console.log(`${sev} ${f.id}  ${f.title}`);
   console.log(`           ${f.location.file}:${f.location.line}  (${f.ruleId} · ${f.masvs} · ${f.owasp})`);
@@ -47,6 +46,7 @@ function printHuman(result: ScanResult, minSeverity: Severity): void {
     console.log();
   }
 
+  // eslint-disable-next-line security/detect-object-injection -- s recorre SEVERITIES
   const summary = SEVERITIES.map((s) => `${s}: ${result.stats.bySeverity[s]}`).join('  ');
   console.log(paint('bold', `Total: ${result.findings.length} hallazgos`) + `  (${summary})`);
   if (shown.length < result.findings.length) {
