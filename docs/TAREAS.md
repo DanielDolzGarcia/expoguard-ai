@@ -1,7 +1,7 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 30/09/2026.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 10/10/2026.
 
 ---
 
@@ -24,7 +24,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - `tests/fixtures/prebuild-app`: proyecto con `app.config.ts` dinámico y carpetas `android/` e `ios/` generadas.
 - Todas las claves son falsas (contienen `FAKE` o `EXAMPLE`).
 
-## T03 · Validación del proyecto Expo e inventario (H1) — ⬜ pendiente
+## T03 · Validación del proyecto Expo e inventario (H1) — ✅ completada
 
 **Objetivo.** Dado un directorio, comprobar que es un proyecto Expo y listar los ficheros a analizar.
 
@@ -36,7 +36,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 
 **Casos de prueba.** Directorio vacío; `package.json` sin expo; proyecto con `node_modules`; enlace simbólico que apunta fuera del proyecto.
 
-## T04 · Parseo AST (H1) — ⬜ pendiente
+## T04 · Parseo AST (H1) — ✅ completada
 
 **Objetivo.** Parsear JS/JSX/TS/TSX con `@babel/parser` sin detener el análisis si un fichero falla.
 
@@ -45,7 +45,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Un fichero con error de sintaxis se registra como aviso y el resto se sigue analizando.
 - Parsea sin errores la plantilla oficial de `create-expo-app` y las fixtures.
 
-## T05 · Lectura estática de la configuración (H1) — ⬜ pendiente
+## T05 · Lectura estática de la configuración (H1) — ✅ completada
 
 **Objetivo.** Obtener el objeto `expo` de `app.json` o de `app.config.js/ts` **sin ejecutar** el fichero, con el número de línea de cada clave.
 

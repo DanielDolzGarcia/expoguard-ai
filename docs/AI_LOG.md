@@ -34,3 +34,16 @@ Para dudas concretas y textos se usa un nivel menor (1 o 2).
 ### 2026-10-01 · Error al subir el repositorio a GitHub
 - **Herramienta:** Claude Code, Claude Opus 5.5.
 - **Automatización:** nivel 1. GitHub rechazó el primer push con «refusing to allow an OAuth App to create or update workflow `.github/workflows/ci.yml` without `workflow` scope». Se preguntó qué significaba; la solución (`gh auth refresh -s workflow`) la aplicó el alumno.
+
+### 2026-10-10 · Ingesta y parseo (issue #2)
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Especificación:** issue #2 (T03, T04 y T05).
+- **Ficheros:** `src/ingest/*`, `src/ast.ts`, `src/scanner.ts`, `src/cli.ts`, `tests/ingest/*`, `tests/helpers.ts`.
+- **Automatización:** nivel 3.
+- **Validación:** `tsc --strict` (sin errores a la primera), 52 tests (uno de ellos parsea enteras las tres apps de prueba), ESLint y escaneo de la plantilla oficial de `create-expo-app` (Expo SDK 58, 18/18 ficheros parseados).
+- **Errores detectados en el código generado y correcciones:**
+  - La CI de la pull request falló por cobertura de ramas (58 % frente al 70 % exigido): el agente había adelantado en `src/ast.ts` utilidades que solo usan los detectores y que aún no tenían tests. Se dejaron para la issue de los detectores y la cobertura de ramas subió al 80 %.
+  - ESLint (`no-unused-vars`): `_root` y `_deps` en una desestructuración. La configuración solo ignoraba argumentos con `_` → se añadió `ignoreRestSiblings`.
+  - ESLint (`security/detect-object-injection`): **prototype pollution real** en el evaluador estático de `app.json`: `out[name] = …` con claves que vienen del proyecto analizado. Un `"__proto__"` cambiaba el prototipo del objeto y podía ocultar o falsear valores de configuración. → Objetos con `Object.create(null)`, `getPath` con `Object.hasOwn` y test de regresión.
+  - ESLint (`security/detect-unsafe-regex`): regex `^\.env(?:\..+)?$` → sustituida por comparaciones de cadenas.
+  - 25 avisos `detect-non-literal-fs-filename` / `detect-object-injection` revisados uno a uno: falsos positivos (la herramienta tiene que leer rutas elegidas por el usuario). Se justifican en línea o se desactivan solo en `tests/`.
