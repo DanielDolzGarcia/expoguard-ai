@@ -1,7 +1,7 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 10/10/2026.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 21/10/2026.
 
 ---
 
@@ -53,13 +53,13 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Soporta `export default {…}`, `export default ({ config }) => ({…})`, `module.exports = …`, `satisfies`/`as ExpoConfig` y referencias a una constante.
 - Los valores no literales (p. ej. `process.env.X`) se marcan como desconocidos, no se evalúan.
 
-## T06 · Modelo de hallazgos y catálogo de reglas (H2) — ⬜ pendiente
+## T06 · Modelo de hallazgos y catálogo de reglas (H2) — ✅ completada
 
 **Objetivo.** Tipo `Finding` común, catálogo de reglas con severidad, control MASVS y categoría OWASP Mobile Top 10 2024, y `data/masvs.json`.
 
 **Criterios de aceptación.** Toda regla apunta a un control MASVS y a una categoría OWASP que existen en el catálogo local (test automático).
 
-## T07 · Detectores deterministas (H2) — ⬜ pendiente
+## T07 · Detectores deterministas (H2) — 🟡 en curso
 
 **Objetivo.** Cinco detectores: secretos, almacenamiento, dependencias, WebView/deep links y configuración nativa.
 
@@ -69,7 +69,9 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Los secretos aparecen siempre enmascarados.
 - `npm audit` se ejecuta sin shell y con `--package-lock-only` (no instala ni ejecuta nada del proyecto).
 
-## T08 · CLI `expoguard scan` (H2, adelantado de H4) — ⬜ pendiente
+**Pendiente dentro de T07.** Paquetes abandonados o sin licencia; seguimiento de datos entre ficheros en deep links.
+
+## T08 · CLI `expoguard scan` (H2, adelantado de H4) — ✅ completada (versión mínima)
 
 **Objetivo.** Comando que ejecuta el análisis y muestra los hallazgos por consola o en JSON.
 

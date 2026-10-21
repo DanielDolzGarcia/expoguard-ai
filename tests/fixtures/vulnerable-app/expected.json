@@ -30,7 +30,7 @@
     { "ruleId": "native/ios-ats-disabled", "file": "app.json", "line": 22 },
     { "ruleId": "native/android-cleartext", "file": "app.json", "line": 32 },
 
-    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 7, "note": "axios 0.21.1" },
-    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 11, "note": "lodash 4.17.15" }
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 8, "note": "axios 0.21.1" },
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 13, "note": "lodash 4.17.15" }
   ]
 }
