@@ -47,3 +47,24 @@ Para dudas concretas y textos se usa un nivel menor (1 o 2).
   - ESLint (`security/detect-object-injection`): **prototype pollution real** en el evaluador estático de `app.json`: `out[name] = …` con claves que vienen del proyecto analizado. Un `"__proto__"` cambiaba el prototipo del objeto y podía ocultar o falsear valores de configuración. → Objetos con `Object.create(null)`, `getPath` con `Object.hasOwn` y test de regresión.
   - ESLint (`security/detect-unsafe-regex`): regex `^\.env(?:\..+)?$` → sustituida por comparaciones de cadenas.
   - 25 avisos `detect-non-literal-fs-filename` / `detect-object-injection` revisados uno a uno: falsos positivos (la herramienta tiene que leer rutas elegidas por el usuario). Se justifican en línea o se desactivan solo en `tests/`.
+
+### 2026-10-21 · Detectores deterministas (issue #3)
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Especificación:** issue #3 (T06, T07 y T08). Los controles MASVS y las categorías OWASP de cada regla los asignó el alumno en la issue.
+- **Ficheros:** `src/rules.ts`, `src/detectors/*`, `tests/detectors/*`, `tests/e2e/*`, `tests/rules.test.ts`.
+- **Automatización:** nivel 3.
+- **Validación:** 139 tests (cobertura 96,4 % de líneas y 83 % de ramas), e2e contra las tres fixtures, `npm audit` real sobre `vulnerable-app` y prueba de mutación hecha a mano por el alumno (7 errores ya corregidos reintroducidos, los 7 detectados).
+- **Errores detectados en el código generado y correcciones:**
+  - `globMatch` (patrones de `.gitignore`): la primera versión tenía las ramas en mal orden y retrocedía antes de casar una `/` literal. Detectado al revisar el diff → reescrito con el algoritmo estándar.
+  - `ref.current?.injectJavaScript(...)` es un `OptionalCallExpression` en Babel y el visitor solo miraba `CallExpression`: el caso de la fixture no se habría detectado. Detectado en revisión → visitor `CallExpression|OptionalCallExpression` y test con `?.`.
+  - `tsc` encontró dos comparaciones imposibles (código muerto) en `native.ts` y `webview.ts`.
+  - Fixture: la clave falsa de Google tenía 33 caracteres tras `AIza` y el formato real exige 35, así que la regla nunca la habría encontrado. Corregida la fixture, no la regla.
+  - `expected.json`: el agente puso axios y lodash en las líneas 7 y 11 de `package.json`, pero están en la 8 y la 13. La herramienta tenía razón y la especificación estaba mal.
+  - Dependencias transitivas «introducidas por ?» (`image-size`): `npm audit` solo enlaza en `effects` los dependientes que también son vulnerables. → Grafo inverso desde `package-lock.json`.
+  - Dos atajos de tipado poco limpios (`as never` y un cast de `getBindingIdentifiers`) sustituidos por código correcto.
+- **Decisiones de seguridad añadidas durante la revisión:** cuantificadores acotados en las regex de secretos (con test de ReDoS sobre una línea de 400 KB) y `--registry` forzado en `npm audit`.
+
+### 2026-10-22 · Borrador del README
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Ficheros:** `README.md`.
+- **Automatización:** nivel 2. Se pidió un borrador de las secciones de instalación y uso a partir de la salida de `expoguard scan --help`. El alumno lo integró a mano: quitó una opción `--fix` que no existe, rehízo el ejemplo de salida con una ejecución real y escribió la parte de seguridad.
