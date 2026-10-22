@@ -1,7 +1,7 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 21/10/2026.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 22/10/2026.
 
 ---
 
@@ -69,7 +69,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Los secretos aparecen siempre enmascarados.
 - `npm audit` se ejecuta sin shell y con `--package-lock-only` (no instala ni ejecuta nada del proyecto).
 
-**Pendiente dentro de T07.** Paquetes abandonados o sin licencia; seguimiento de datos entre ficheros en deep links.
+**Pendiente dentro de T07.** Respaldo con la API de OSV cuando no hay `package-lock.json` (yarn/pnpm); paquetes abandonados o sin licencia; seguimiento de datos entre ficheros en deep links.
 
 ## T08 · CLI `expoguard scan` (H2, adelantado de H4) — ✅ completada (versión mínima)
 
