@@ -80,7 +80,7 @@ function checkAppConfig(cfg: AppConfig): RawFinding[] {
       .filter((p) => DANGEROUS_PERMISSIONS.has(p));
     if (dangerous.length > 0) {
       out.push(
-        cfgFinding(cfg, ['android', 'permissions'], 'native/dangerous-permissions', `Se solicitan ${dangerous.length} permisos peligrosos: ${dangerous.join(', ')}.`, {
+        cfgFinding(cfg, ['android', 'permissions'], 'native/dangerous-permissions', dangerous.length === 1 ? `Se solicita 1 permiso peligroso: ${dangerous[0]}.` : `Se solicitan ${dangerous.length} permisos peligrosos: ${dangerous.join(', ')}.`, {
           severity: dangerous.length >= 3 ? 'medium' : 'low',
           evidence: { permissions: dangerous },
         }),
