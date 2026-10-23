@@ -68,3 +68,8 @@ Para dudas concretas y textos se usa un nivel menor (1 o 2).
 - **Herramienta:** Claude Code, Claude Opus 5.5.
 - **Ficheros:** `README.md`.
 - **Automatización:** nivel 2. Se pidió un borrador de las secciones de instalación y uso a partir de la salida de `expoguard scan --help`. El alumno lo integró a mano: quitó una opción `--fix` que no existe, rehízo el ejemplo de salida con una ejecución real y escribió la parte de seguridad.
+
+### 2026-10-23 · Versión de las actions de la CI (issue #4)
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Automatización:** nivel 1. La CI avisaba de que `actions/checkout@v4` y `actions/setup-node@v4` usan Node 20, que está obsoleto. Se preguntó qué versión usa Node 24; el cambio a v7 en `ci.yml` lo hizo el alumno.
+- **Resultado:** la siguiente ejecución salió en verde sin el aviso.

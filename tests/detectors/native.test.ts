@@ -28,7 +28,7 @@ describe('nativeDetector: app.json', () => {
 
   it('permisos: con prefijo android.permission., y severidad según el número', async () => {
     const one = await runDetector(nativeDetector, appJson({ scheme: 'com.a.b', android: { allowBackup: false, permissions: ['android.permission.CAMERA', 'INTERNET'] } }));
-    expect(one[0]).toMatchObject({ ruleId: 'native/dangerous-permissions', severity: 'low' });
+    expect(one[0]).toMatchObject({ ruleId: 'native/dangerous-permissions', severity: 'low', message: 'Se solicita 1 permiso peligroso: CAMERA.' });
     const many = await runDetector(nativeDetector, appJson({ scheme: 'com.a.b', android: { allowBackup: false, permissions: ['READ_SMS', 'CAMERA', 'RECORD_AUDIO'] } }));
     expect(many[0]!.severity).toBe('medium');
   });
