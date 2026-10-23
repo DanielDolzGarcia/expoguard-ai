@@ -1,7 +1,7 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 22/10/2026.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 23/10/2026.
 
 ---
 

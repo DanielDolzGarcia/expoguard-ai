@@ -27,7 +27,7 @@ un modelo de lenguaje que filtra falsos positivos, prioriza y explica cada halla
 ## Instalación
 
 ```bash
-git clone <url-del-repositorio> expoguard-ai
+git clone https://github.com/DanielDolzGarcia/expoguard-ai.git
 cd expoguard-ai
 npm ci
 npm run build
