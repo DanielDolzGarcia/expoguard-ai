@@ -1,0 +1,14 @@
+{
+  "name": "yarnshop",
+  "version": "1.0.0",
+  "main": "expo-router/entry",
+  "private": true,
+  "dependencies": {
+    "@react-native-async-storage/async-storage": "2.1.2",
+    "axios": "0.21.1",
+    "expo": "~54.0.0",
+    "lodash": "4.17.15",
+    "react": "19.1.0",
+    "react-native": "0.81.4"
+  }
+}

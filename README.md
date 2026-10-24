@@ -4,25 +4,25 @@ Herramienta de línea de comandos que audita la seguridad del **código fuente**
 React Native creadas con **Expo**, antes de compilarlas. Combina reglas deterministas con (a partir del hito H3)
 un modelo de lenguaje que filtra falsos positivos, prioriza y explica cada hallazgo.
 
-> Proyecto de la asignatura Proyectos de Ciberseguridad (INSO4D) · Daniel Dolz García · Estado: **v0.2.0 (hitos H0–H2)**.
+> Proyecto de la asignatura Proyectos de Ciberseguridad (INSO4D) · Daniel Dolz García · Estado: **v0.2.1 (hitos H0–H2 cerrados)**.
 
-## Qué detecta (v0.2.0)
+## Qué detecta (v0.2.1)
 
 | Familia | Ejemplos | OWASP / MASVS |
 |---|---|---|
 | Secretos | Claves de AWS, Stripe, OpenAI/Anthropic/OpenRouter, GitHub, Slack, Google, JWT, claves PEM, cadenas de alta entropía, `EXPO_PUBLIC_*` con secretos, `.env` sin `.gitignore` | M1 · MASVS-STORAGE-1 / CRYPTO-2 |
 | Almacenamiento | `AsyncStorage.setItem` con tokens o credenciales (resolviendo constantes), `redux-persist` con AsyncStorage, `console.*` con datos sensibles | M9 · MASVS-STORAGE-1/2 |
-| Dependencias | `npm audit --package-lock-only`, agrupado por paquete, con la dependencia directa que lo introduce y si se importa en el código | M2 · MASVS-CODE-3 |
+| Dependencias | `npm audit --package-lock-only` agrupado por paquete, con la dependencia directa que lo introduce y si se importa en el código; con yarn o pnpm, consulta a la API de OSV; paquetes marcados como obsoletos y sin licencia (desde `package-lock.json`) | M2 · MASVS-CODE-3 |
 | WebView y deep links | `originWhitelist={['*']}`, acceso a ficheros, contenido mixto, URL dinámica con JS, `injectJavaScript` con datos, parámetros de deep link que llegan sin validar a `openURL`/`fetch`/WebView | M4/M5 · MASVS-PLATFORM-1/2 |
 | Configuración nativa | `usesCleartextTraffic`, `NSAllowsArbitraryLoads`, `allowBackup` (también implícito), permisos peligrosos, esquema genérico, `android:debuggable` (app.json, app.config.js/ts, AndroidManifest.xml, Info.plist) | M5/M7/M8 · MASVS-NETWORK-1, PRIVACY-1… |
 
-`expoguard rules` lista las 29 reglas con su severidad, control MASVS y categoría OWASP.
+`expoguard rules` lista las 31 reglas con su severidad, control MASVS y categoría OWASP.
 
 ## Requisitos
 
 - Node.js **24** o superior (incluye npm).
 - Git (para clonar).
-- Conexión a Internet solo para la auditoría de dependencias (se puede omitir con `--skip-deps`).
+- Conexión a Internet solo para la auditoría de dependencias: el registro de npm (`npm audit`) o la API de OSV (proyectos con yarn o pnpm). Se puede omitir con `--skip-deps`.
 
 ## Instalación
 
@@ -74,11 +74,13 @@ Estructura:
 ```
 src/cli.ts            comando "expoguard" (Commander)
 src/scanner.ts        orquestación: contexto común y detectores en paralelo
-src/ingest/           validación Expo, inventario, parseo AST (Babel), lectura estática de app.json/app.config
-src/detectors/        secrets, storage, dependencies, webview (+ deep links), native
+src/ingest/           validación Expo, inventario, parseo AST (Babel), lectura estática de app.json/app.config, yarn.lock y pnpm-lock.yaml
+src/detectors/        secrets, storage, dependencies (+ cliente OSV), webview (+ deep links), native
 src/rules.ts          catálogo de reglas
 data/masvs.json       catálogo local de controles MASVS v2.1 y OWASP Mobile Top 10 2024
-tests/                tests unitarios y e2e; tests/fixtures con proyectos Expo vulnerables
+tests/                tests unitarios y e2e; tests/fixtures con proyectos Expo de prueba
+                      (vulnerable-app, safe-app, prebuild-app, yarn-app) y tests/data con
+                      respuestas reales grabadas de npm audit y OSV
 docs/TAREAS.md        especificación de cada tarea
 docs/AI_LOG.md        registro del uso de IA
 CLAUDE.md             convenciones que sigue el agente de IA
@@ -89,6 +91,8 @@ CLAUDE.md             convenciones que sigue el agente de IA
 - **Nunca ejecuta** código del proyecto analizado: `app.config.ts` se evalúa de forma estática sobre el AST.
 - No sigue enlaces simbólicos ni lee ficheros de más de 1 MB.
 - `npm audit` se lanza sin shell, con `--package-lock-only` (no instala nada) y forzando el registro oficial, para que un `.npmrc` malicioso no lo redirija.
+- A OSV solo se envían nombres y versiones de paquetes públicos de npm, nunca código ni ficheros del proyecto.
+- Si una fuente externa (npm o OSV) no responde, el análisis sigue y se avisa; lo que se calcula sin red (paquetes obsoletos, licencias) no se pierde.
 - Los secretos se muestran **siempre enmascarados** (4 primeros caracteres y longitud).
 - Este repositorio **no contiene credenciales**. Las claves de `tests/` son falsas y contienen `FAKE` o `EXAMPLE`.
 - A partir de H3 la clave de OpenRouter se leerá de la variable de entorno `OPENROUTER_API_KEY` (nunca de un fichero versionado).
@@ -96,4 +100,4 @@ CLAUDE.md             convenciones que sigue el agente de IA
 ## Pendiente (H3–H5)
 
 Triaje y redacción con LLM vía OpenRouter (con saneador de secretos y validación Zod), informe Markdown,
-pruebas de inyección de prompts, respaldo con la API de OSV y métricas de precisión con y sin IA. Ver `docs/TAREAS.md`.
+pruebas de inyección de prompts y métricas de precisión con y sin IA. Ver `docs/TAREAS.md`.

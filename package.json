@@ -1,6 +1,6 @@
 {
   "name": "expoguard-ai",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "CLI que audita la seguridad del código fuente de apps React Native con Expo combinando reglas deterministas y modelos de lenguaje",
   "type": "module",
   "bin": {

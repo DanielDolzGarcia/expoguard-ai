@@ -1,0 +1,9 @@
+{
+  "description": "Proyecto con yarn (sin package-lock.json): las dependencias se auditan con la API de OSV. El yarn.lock está reducido a mano; las respuestas de OSV están grabadas en tests/data/osv-yarn-app.json.",
+  "findings": [
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 8, "note": "axios 0.21.1, directa e importada en src/api.ts" },
+    { "ruleId": "deps/known-vulnerability", "file": "package.json", "line": 10, "note": "lodash 4.17.15, directa pero sin usar" },
+    { "ruleId": "deps/known-vulnerability", "file": "yarn.lock", "line": 22, "note": "follow-redirects 1.14.0, transitiva de axios" },
+    { "ruleId": "deps/known-vulnerability", "file": "yarn.lock", "line": 40, "note": "minimist 1.2.5, transitiva (entrada con dos descriptores)" }
+  ]
+}

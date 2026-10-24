@@ -1,4 +1,5 @@
 import type { File as BabelFile } from '@babel/types';
+import type { OsvClient } from './detectors/osv.js';
 
 export const SEVERITIES = ['critical', 'high', 'medium', 'low', 'info'] as const;
 export type Severity = (typeof SEVERITIES)[number];
@@ -70,6 +71,8 @@ export interface ScanOptions {
   skipDependencies?: boolean;
   /** Permite sustituir la ejecución de `npm audit` en los tests. */
   auditRunner?: AuditRunner;
+  /** Permite sustituir las llamadas a la API de OSV en los tests. */
+  osvClient?: OsvClient;
 }
 
 export type AuditRunner = (cwd: string) => Promise<string>;
@@ -84,6 +87,8 @@ export interface ScanContext {
   importedPackages: Set<string>;
   options: ScanOptions;
   readText(file: InventoryFile): string;
+  /** Registra un aviso sin abortar el detector (p. ej. una fuente externa que no responde). */
+  warn(message: string): void;
 }
 
 export interface Detector {

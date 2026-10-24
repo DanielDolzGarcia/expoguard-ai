@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { scan, severityAtLeast } from '../../src/scanner.js';
 import type { ScanResult } from '../../src/types.js';
-import { FIXTURES } from '../helpers.js';
+import { FIXTURES, recordedOsvClient } from '../helpers.js';
 
 interface Expected {
   findings: Array<{ ruleId: string; file: string; line: number }>;
@@ -30,9 +30,31 @@ describe('e2e: fixtures con vulnerabilidades conocidas', () => {
     const result = await scan(join(FIXTURES, 'vulnerable-app'), { auditRunner: async () => RECORDED });
     const { missing, extra } = compare(result, expectedOf('vulnerable-app'));
     expect(missing).toEqual([]);
-    // Lo que sobra son dependencias transitivas reales del árbol de Expo (no insertadas a mano).
-    expect(extra.every((k) => k.startsWith('deps/known-vulnerability @ package.json'))).toBe(true);
+    // Lo que sobra sale del árbol real de Expo (no insertado a mano): vulnerabilidades transitivas,
+    // paquetes obsoletos (glob@7, inflight, rimraf@3) y dos paquetes sin licencia en el lockfile.
+    expect(extra.filter((k) => !/^deps\/(known-vulnerability|deprecated-package|license-issue) @ package\.json/.test(k))).toEqual([]);
+    expect(result.findings.filter((f) => f.ruleId === 'deps/deprecated-package')).toHaveLength(3);
     expect(result.warnings).toEqual([]);
+  });
+
+  it('yarn-app: sin package-lock.json, las dependencias se auditan con OSV', async () => {
+    const result = await scan(join(FIXTURES, 'yarn-app'), { osvClient: recordedOsvClient() });
+    const { missing, extra } = compare(result, expectedOf('yarn-app'));
+    expect(missing).toEqual([]);
+    expect(extra).toEqual([]);
+    expect(result.warnings).toEqual([]);
+  });
+
+  it('yarn-app: si OSV no responde, queda como aviso y el resto del análisis sigue', async () => {
+    const result = await scan(join(FIXTURES, 'yarn-app'), {
+      osvClient: {
+        queryBatch: async () => {
+          throw new Error('fetch failed');
+        },
+        getVuln: async () => ({ id: 'x' }),
+      },
+    });
+    expect(result.warnings.map((w) => w.message)).toEqual(['Falló el detector dependencies: Error: fetch failed']);
   });
 
   it('prebuild-app: app.config.ts dinámico, AndroidManifest e Info.plist', async () => {
@@ -64,14 +86,18 @@ describe('e2e: fixtures con vulnerabilidades conocidas', () => {
     expect(total).toBe(result.findings.length);
   });
 
-  it('un detector que falla no tumba el análisis: queda como aviso', async () => {
+  it('si npm audit falla no se pierde nada más: queda como aviso', async () => {
     const result = await scan(join(FIXTURES, 'vulnerable-app'), {
       auditRunner: async () => {
         throw new Error('ENOTFOUND registry.npmjs.org');
       },
     });
-    expect(result.warnings.map((w) => w.message)).toEqual(['Falló el detector dependencies: Error: ENOTFOUND registry.npmjs.org']);
+    expect(result.warnings.map((w) => w.message)).toEqual([
+      'npm audit no se pudo completar (ENOTFOUND registry.npmjs.org): no se han comprobado vulnerabilidades conocidas.',
+    ]);
     expect(result.findings.length).toBeGreaterThan(20);
+    // Los obsoletos salen del lockfile, sin red
+    expect(result.findings.some((f) => f.ruleId === 'deps/deprecated-package')).toBe(true);
   });
 
   it('un fichero con error de sintaxis se registra y el resto se analiza', async () => {
