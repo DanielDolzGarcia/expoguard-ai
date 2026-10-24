@@ -1,7 +1,7 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 23/10/2026.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 24/10/2026 (H0–H2 cerrados).
 
 ---
 
@@ -59,7 +59,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 
 **Criterios de aceptación.** Toda regla apunta a un control MASVS y a una categoría OWASP que existen en el catálogo local (test automático).
 
-## T07 · Detectores deterministas (H2) — 🟡 en curso
+## T07 · Detectores deterministas (H2) — ✅ completada (24/10)
 
 **Objetivo.** Cinco detectores: secretos, almacenamiento, dependencias, WebView/deep links y configuración nativa.
 
@@ -69,7 +69,15 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Los secretos aparecen siempre enmascarados.
 - `npm audit` se ejecuta sin shell y con `--package-lock-only` (no instala ni ejecuta nada del proyecto).
 
-**Pendiente dentro de T07.** Respaldo con la API de OSV cuando no hay `package-lock.json` (yarn/pnpm); paquetes abandonados o sin licencia; seguimiento de datos entre ficheros en deep links.
+**Ampliación (cierre de H2).**
+- Respaldo con la API de OSV cuando el proyecto usa yarn o pnpm: lectura de `yarn.lock` (v1 y berry) y `pnpm-lock.yaml` (v5, v6 y v9) sin dependencias nuevas. Fixture `yarn-app` con respuestas reales de OSV grabadas en `tests/data/osv-yarn-app.json`.
+- Paquetes marcados como obsoletos por su autor (`deprecated` en `package-lock.json`), agrupados por nombre y versión y atribuidos a la dependencia directa.
+- Licencias: propietaria (`UNLICENSED`, `SEE LICENSE IN`) = baja; sin licencia en el lockfile = un único aviso informativo, porque los paquetes antiguos la declaran en el campo `licenses`, que npm no copia (comprobado con `qrcode-terminal` y `requireg`).
+- Si `npm audit` u OSV fallan, el análisis sigue con un aviso y no se pierden los hallazgos calculados sin red.
+
+**Casos de prueba.** Lockfiles de yarn v1/berry y pnpm v5/v6/v9; entrada de yarn con varios descriptores; lockfile vacío; fallo de red en npm audit y en OSV; obsoleto directo y transitivo; licencia propietaria; enlaces locales (`link: true`).
+
+**Movido a líneas futuras.** Seguimiento de parámetros de deep link entre ficheros: exige análisis entre funciones y módulos (resolver imports y llamadas), que es otro proyecto. Se mantiene el análisis dentro de cada fichero, que cubre el caso típico de Expo Router (`useLocalSearchParams` y uso en la misma pantalla).
 
 ## T08 · CLI `expoguard scan` (H2, adelantado de H4) — ✅ completada (versión mínima)
 
