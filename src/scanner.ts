@@ -18,7 +18,7 @@ import {
   type Severity,
 } from './types.js';
 
-export const VERSION = '0.2.0';
+export const VERSION = '0.2.1';
 
 const SEVERITY_RANK: Record<Severity, number> = { critical: 0, high: 1, medium: 2, low: 3, info: 4 };
 
@@ -67,6 +67,7 @@ export function buildContext(dir: string, options: ScanOptions = {}): { ctx: Sca
     importedPackages: collectImportedPackages(parsed),
     options,
     readText,
+    warn: (message) => warnings.push({ message }),
   };
   return { ctx, warnings };
 }

@@ -1,0 +1,14 @@
+{
+  "expo": {
+    "name": "YarnShop",
+    "slug": "yarnshop",
+    "scheme": "com.expoguard.yarnshop",
+    "android": {
+      "package": "com.expoguard.yarnshop",
+      "allowBackup": false
+    },
+    "ios": {
+      "bundleIdentifier": "com.expoguard.yarnshop"
+    }
+  }
+}

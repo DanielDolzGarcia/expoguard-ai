@@ -1,8 +1,9 @@
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from 'node:fs';
+import { mkdtempSync, mkdirSync, readFileSync, writeFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach } from 'vitest';
+import type { OsvClient, OsvVuln } from '../src/detectors/osv.js';
 import { buildContext } from '../src/scanner.js';
 import type { Detector, RawFinding, ScanOptions } from '../src/types.js';
 
@@ -40,4 +41,27 @@ export async function runDetector(
 
 export function rules(findings: RawFinding[]): string[] {
   return findings.map((f) => f.ruleId);
+}
+
+interface OsvRecording {
+  batch: Record<string, string[]>;
+  vulns: Record<string, OsvVuln>;
+}
+
+/** Cliente de OSV que responde con la grabación real de tests/data (sin red). Cuenta las llamadas. */
+export function recordedOsvClient(file = 'osv-yarn-app.json'): OsvClient & { calls: { batch: number; vulns: number } } {
+  const rec = JSON.parse(readFileSync(join(FIXTURES, '..', 'data', file), 'utf8')) as OsvRecording;
+  const calls = { batch: 0, vulns: 0 };
+  return {
+    calls,
+    async queryBatch(pkgs) {
+      calls.batch++;
+      return pkgs.map((p) => (Object.hasOwn(rec.batch, `${p.name}@${p.version}`) ? rec.batch[`${p.name}@${p.version}`]! : []));
+    },
+    async getVuln(id) {
+      calls.vulns++;
+      if (!Object.hasOwn(rec.vulns, id)) throw new Error(`aviso no grabado: ${id}`);
+      return rec.vulns[id]!;
+    },
+  };
 }

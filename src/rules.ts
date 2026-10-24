@@ -172,6 +172,24 @@ export const RULES: readonly Rule[] = [
     owasp: 'M2',
     remediation: 'Versionar el lockfile para tener builds reproducibles y poder auditarlas.',
   },
+  {
+    id: 'deps/deprecated-package',
+    family: 'dependencies',
+    title: 'Paquete marcado como obsoleto (abandonado) por su autor',
+    severity: 'low',
+    masvs: 'MASVS-CODE-3',
+    owasp: 'M2',
+    remediation: 'Sustituirlo por la alternativa que indica el autor o actualizar la dependencia que lo arrastra: ya no recibe parches de seguridad.',
+  },
+  {
+    id: 'deps/license-issue',
+    family: 'dependencies',
+    title: 'Dependencia sin licencia declarada o con licencia propietaria',
+    severity: 'info',
+    masvs: 'MASVS-CODE-3',
+    owasp: 'M2',
+    remediation: 'Comprobar la licencia en el repositorio del paquete antes de publicar la app; sin licencia no hay permiso para redistribuirlo.',
+  },
 
   // --- WebView y deep links ---
   {
