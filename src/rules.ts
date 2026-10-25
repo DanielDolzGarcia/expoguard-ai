@@ -10,7 +10,7 @@ export interface Rule {
   remediation: string;
 }
 
-// Catálogo de reglas deterministas. La severidad es la de partida: el triaje de IA (H3) podrá
+// Catálogo de reglas deterministas. La severidad es la de partida: el triaje de IA (pendiente) podrá
 // proponer otra, pero nunca eliminar un hallazgo crítico.
 export const RULES: readonly Rule[] = [
   // --- Secretos ---

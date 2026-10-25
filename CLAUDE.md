@@ -5,7 +5,7 @@ Este fichero lo lee el agente (Claude Code) al empezar cada tarea. Recoge las no
 ## Qué es el proyecto
 
 CLI en TypeScript (Node.js 24) que audita el código fuente de apps React Native con Expo.
-Primero detecta con reglas deterministas y después (hito H3) un LLM vía OpenRouter hace el triaje.
+Primero detecta con reglas deterministas y después un LLM vía OpenRouter hace el triaje (pendiente).
 
 ## Estructura
 
@@ -13,8 +13,8 @@ Primero detecta con reglas deterministas y después (hito H3) un LLM vía OpenRo
 - `src/ingest/` — validación del proyecto Expo, inventario de ficheros, parseo AST, lectura de app.json/app.config.
 - `src/detectors/` — un fichero por familia. Cada detector exporta un objeto `Detector` y **no** escribe en disco ni en consola.
 - `src/rules.ts` — catálogo de reglas (id, severidad, MASVS, OWASP Mobile Top 10).
-- `src/ai/` — (H3) cliente OpenRouter, saneador y prompts.
-- `src/report/` — (H4) informes Markdown y JSON.
+- `src/ai/` — (pendiente) cliente OpenRouter, saneador y prompts.
+- `src/report/` — (pendiente) informes Markdown y JSON.
 - `data/masvs.json` — catálogo local de controles MASVS y categorías OWASP.
 - `tests/` — tests Vitest. `tests/fixtures/` contiene proyectos Expo de prueba con vulnerabilidades conocidas.
 

@@ -1,10 +1,10 @@
 # ExpoGuard AI
 
 Herramienta de línea de comandos que audita la seguridad del **código fuente** de aplicaciones
-React Native creadas con **Expo**, antes de compilarlas. Combina reglas deterministas con (a partir del hito H3)
-un modelo de lenguaje que filtra falsos positivos, prioriza y explica cada hallazgo.
+React Native creadas con **Expo**, antes de compilarlas. Combina reglas deterministas con un modelo
+de lenguaje (todavía en desarrollo) que filtra falsos positivos, prioriza y explica cada hallazgo.
 
-> Proyecto de la asignatura Proyectos de Ciberseguridad (INSO4D) · Daniel Dolz García · Estado: **v0.2.1 (hitos H0–H2 cerrados)**.
+> Proyecto de la asignatura Proyectos de Ciberseguridad (INSO4D) · Daniel Dolz García · Estado: **v0.2.1 (detectores terminados; la parte de IA está en desarrollo)**.
 
 ## Qué detecta (v0.2.1)
 
@@ -95,9 +95,9 @@ CLAUDE.md             convenciones que sigue el agente de IA
 - Si una fuente externa (npm o OSV) no responde, el análisis sigue y se avisa; lo que se calcula sin red (paquetes obsoletos, licencias) no se pierde.
 - Los secretos se muestran **siempre enmascarados** (4 primeros caracteres y longitud).
 - Este repositorio **no contiene credenciales**. Las claves de `tests/` son falsas y contienen `FAKE` o `EXAMPLE`.
-- A partir de H3 la clave de OpenRouter se leerá de la variable de entorno `OPENROUTER_API_KEY` (nunca de un fichero versionado).
+- La clave de OpenRouter se leerá de la variable de entorno `OPENROUTER_API_KEY` (nunca de un fichero versionado).
 
-## Pendiente (H3–H5)
+## Pendiente
 
 Triaje y redacción con LLM vía OpenRouter (con saneador de secretos y validación Zod), informe Markdown,
 pruebas de inyección de prompts y métricas de precisión con y sin IA. Ver `docs/TAREAS.md`.
