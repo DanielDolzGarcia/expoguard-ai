@@ -1,7 +1,17 @@
 # Especificación de tareas
 
-Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 24/10/2026 (H0–H2 cerrados).
+Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`, y se abre como issue en GitHub.
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 25/10/2026 (H0–H2 cerrados).
+
+| Issue | Tareas | Rama | Hito |
+|---|---|---|---|
+| #1 | T01, T02 | `feature/1-preparacion` | H0 |
+| #2 | T03, T04, T05 | `feature/2-ingesta` | H1 |
+| #3 | T06, T07, T08 | `feature/3-detectores` | H2 |
+| #4 | Actions de la CI a v7 | `feature/4-actualizar-ci` | H2 |
+| #5 | Mensaje «1 permisos peligrosos» | `feature/5-mensaje-permisos` | H2 |
+| #6 | Ampliación de T07 | `feature/6-dependencias` | H2 |
+| #7 | Documentación de la entrega 2 | `feature/7-documentacion` | H2 |
 
 ---
 

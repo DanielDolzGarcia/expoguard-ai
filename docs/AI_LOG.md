@@ -15,7 +15,7 @@ Escala de automatización usada:
 
 Como se planteó en la primera entrega, las tareas de código se hacen con nivel 3: el alumno escribe la issue,
 Claude Code genera el código y los tests en la rama `feature/<issue>` y el alumno revisa el diff antes de integrarlo.
-Para dudas concretas y textos se usa un nivel menor (1 o 2).
+Para dudas concretas y textos se usa un nivel menor (1 o 2). Lo que se hizo sin IA está al final del registro.
 
 ---
 
@@ -92,3 +92,19 @@ Para dudas concretas y textos se usa un nivel menor (1 o 2).
   - **Comportamiento ante fallos:** antes, si `npm audit` fallaba se perdía todo el detector. Ahora se avisa con `ctx.warn` y se conservan los hallazgos calculados sin red.
   - Un test tenía mal contada una línea del `yarn.lock` (42 en vez de 40); la herramienta tenía razón.
 - **Cambio de alcance:** el seguimiento de deep links entre ficheros pasa a líneas futuras (requiere análisis entre módulos).
+
+### 2026-10-25 · Memoria de la segunda entrega (issue #7)
+- **Herramienta:** Claude Code, Claude Opus 5.5.
+- **Automatización:** nivel 1. La memoria la redacta el alumno; la IA revisa la redacción y comprueba que las cifras coinciden con la salida de la herramienta y de la CI.
+
+---
+
+## Trabajo sin IA (nivel 0)
+
+- **Especificaciones:** las issues #1 a #7, `docs/TAREAS.md`, `CLAUDE.md` y este registro.
+- **Datos de partida:** la lista de vulnerabilidades de cada app de prueba, a partir del catálogo de la primera entrega, y la lista de controles de OWASP MASVS y categorías del Mobile Top 10.
+- **GitHub:** creación del repositorio e inicio de sesión con `gh`. También el `git add -f` del `.env` de `safe-app`, que su propio `.gitignore` excluía.
+- **Issue #5:** «Se solicitan 1 permisos peligrosos» al analizar `safe-app`. Concordancia corregida y comprobación añadida al test.
+- **Investigación:** documentación de OSV y de los lockfiles (con las dudas del 23/10) y licencias en el registro de npm (issue #6).
+- **Prueba de mutación:** reintroducir a propósito errores ya corregidos y comprobar que algún test falla. 7/7 con los detectores y 9/9 tras la issue #6.
+- **Revisión** del diff de cada pull request antes de integrarla.
