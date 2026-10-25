@@ -1,21 +1,22 @@
 # Especificación de tareas
 
 Cada tarea es la especificación que recibe el agente (Claude Code) junto con `CLAUDE.md`, y se abre como issue en GitHub.
-Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 25/10/2026 (H0–H2 cerrados).
+Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizado a 25/10/2026 (preparación, ingesta y detectores terminados).
 
 | Issue | Tareas | Rama | Hito |
 |---|---|---|---|
-| #1 | T01, T02 | `feature/1-preparacion` | H0 |
-| #2 | T03, T04, T05 | `feature/2-ingesta` | H1 |
-| #3 | T06, T07, T08 | `feature/3-detectores` | H2 |
-| #4 | Actions de la CI a v7 | `feature/4-actualizar-ci` | H2 |
-| #5 | Mensaje «1 permisos peligrosos» | `feature/5-mensaje-permisos` | H2 |
-| #6 | Ampliación de T07 | `feature/6-dependencias` | H2 |
-| #7 | Documentación de la entrega 2 | `feature/7-documentacion` | H2 |
+| #1 | T01, T02 | `feature/1-preparacion` | Preparación |
+| #2 | T03, T04, T05 | `feature/2-ingesta` | Ingesta |
+| #3 | T06, T07, T08 | `feature/3-detectores` | Detectores |
+| #4 | Actions de la CI a v7 | `feature/4-actualizar-ci` | Detectores |
+| #5 | Mensaje «1 permisos peligrosos» | `feature/5-mensaje-permisos` | Detectores |
+| #6 | Ampliación de T07 | `feature/6-dependencias` | Detectores |
+| #7 | Documentación de la entrega 2 | `feature/7-documentacion` | Detectores |
+| #15 | Quitar las siglas de los hitos de la documentación | `feature/15-quitar-siglas-hitos` | Detectores |
 
 ---
 
-## T01 · Preparación del repositorio (H0) — ✅ completada
+## T01 · Preparación del repositorio — ✅ completada
 
 **Objetivo.** Repositorio Git con TypeScript estricto, ESLint con reglas de seguridad, Vitest con cobertura, CI de GitHub Actions, `CLAUDE.md` y `docs/AI_LOG.md`.
 
@@ -24,7 +25,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - El workflow `.github/workflows/ci.yml` ejecuta typecheck, lint, tests con cobertura, build y `npm audit` del propio proyecto.
 - `.gitignore` excluye `.env*` (salvo las fixtures) para que no se suban claves.
 
-## T02 · Fixtures Expo vulnerables (H0) — ✅ completada
+## T02 · Fixtures Expo vulnerables — ✅ completada
 
 **Objetivo.** Proyectos Expo de prueba con vulnerabilidades insertadas y conocidas de antemano.
 
@@ -34,7 +35,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - `tests/fixtures/prebuild-app`: proyecto con `app.config.ts` dinámico y carpetas `android/` e `ios/` generadas.
 - Todas las claves son falsas (contienen `FAKE` o `EXAMPLE`).
 
-## T03 · Validación del proyecto Expo e inventario (H1) — ✅ completada
+## T03 · Validación del proyecto Expo e inventario — ✅ completada
 
 **Objetivo.** Dado un directorio, comprobar que es un proyecto Expo y listar los ficheros a analizar.
 
@@ -46,7 +47,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 
 **Casos de prueba.** Directorio vacío; `package.json` sin expo; proyecto con `node_modules`; enlace simbólico que apunta fuera del proyecto.
 
-## T04 · Parseo AST (H1) — ✅ completada
+## T04 · Parseo AST — ✅ completada
 
 **Objetivo.** Parsear JS/JSX/TS/TSX con `@babel/parser` sin detener el análisis si un fichero falla.
 
@@ -55,7 +56,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Un fichero con error de sintaxis se registra como aviso y el resto se sigue analizando.
 - Parsea sin errores la plantilla oficial de `create-expo-app` y las fixtures.
 
-## T05 · Lectura estática de la configuración (H1) — ✅ completada
+## T05 · Lectura estática de la configuración — ✅ completada
 
 **Objetivo.** Obtener el objeto `expo` de `app.json` o de `app.config.js/ts` **sin ejecutar** el fichero, con el número de línea de cada clave.
 
@@ -63,13 +64,13 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Soporta `export default {…}`, `export default ({ config }) => ({…})`, `module.exports = …`, `satisfies`/`as ExpoConfig` y referencias a una constante.
 - Los valores no literales (p. ej. `process.env.X`) se marcan como desconocidos, no se evalúan.
 
-## T06 · Modelo de hallazgos y catálogo de reglas (H2) — ✅ completada
+## T06 · Modelo de hallazgos y catálogo de reglas — ✅ completada
 
 **Objetivo.** Tipo `Finding` común, catálogo de reglas con severidad, control MASVS y categoría OWASP Mobile Top 10 2024, y `data/masvs.json`.
 
 **Criterios de aceptación.** Toda regla apunta a un control MASVS y a una categoría OWASP que existen en el catálogo local (test automático).
 
-## T07 · Detectores deterministas (H2) — ✅ completada (24/10)
+## T07 · Detectores deterministas — ✅ completada (24/10)
 
 **Objetivo.** Cinco detectores: secretos, almacenamiento, dependencias, WebView/deep links y configuración nativa.
 
@@ -79,7 +80,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 - Los secretos aparecen siempre enmascarados.
 - `npm audit` se ejecuta sin shell y con `--package-lock-only` (no instala ni ejecuta nada del proyecto).
 
-**Ampliación (cierre de H2).**
+**Ampliación (issue #6).**
 - Respaldo con la API de OSV cuando el proyecto usa yarn o pnpm: lectura de `yarn.lock` (v1 y berry) y `pnpm-lock.yaml` (v5, v6 y v9) sin dependencias nuevas. Fixture `yarn-app` con respuestas reales de OSV grabadas en `tests/data/osv-yarn-app.json`.
 - Paquetes marcados como obsoletos por su autor (`deprecated` en `package-lock.json`), agrupados por nombre y versión y atribuidos a la dependencia directa.
 - Licencias: propietaria (`UNLICENSED`, `SEE LICENSE IN`) = baja; sin licencia en el lockfile = un único aviso informativo, porque los paquetes antiguos la declaran en el campo `licenses`, que npm no copia (comprobado con `qrcode-terminal` y `requireg`).
@@ -89,7 +90,7 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 
 **Movido a líneas futuras.** Seguimiento de parámetros de deep link entre ficheros: exige análisis entre funciones y módulos (resolver imports y llamadas), que es otro proyecto. Se mantiene el análisis dentro de cada fichero, que cubre el caso típico de Expo Router (`useLocalSearchParams` y uso en la misma pantalla).
 
-## T08 · CLI `expoguard scan` (H2, adelantado de H4) — ✅ completada (versión mínima)
+## T08 · CLI `expoguard scan` (adelantada del informe) — ✅ completada (versión mínima)
 
 **Objetivo.** Comando que ejecuta el análisis y muestra los hallazgos por consola o en JSON.
 
@@ -97,11 +98,11 @@ Formato: objetivo, criterios de aceptación y casos de prueba. Estado actualizad
 
 ---
 
-## Pendientes (H3–H5)
+## Pendientes
 
-- T09 · Cliente OpenRouter y saneador de secretos (H3).
-- T10 · Prompts de triaje y redacción, validación con Zod, caché por hash (H3).
-- T11 · Comparación de modelos sobre las fixtures (H3).
-- T12 · Informe Markdown + JSON definitivo (H4).
-- T13 · Fixtures de inyección de prompts y pruebas de fuga (H4).
-- T14 · Métricas de precisión con y sin IA, README final y memoria (H5).
+- T09 · Cliente OpenRouter y saneador de secretos.
+- T10 · Prompts de triaje y redacción, validación con Zod, caché por hash.
+- T11 · Comparación de modelos sobre las fixtures.
+- T12 · Informe Markdown + JSON definitivo.
+- T13 · Fixtures de inyección de prompts y pruebas de fuga.
+- T14 · Métricas de precisión con y sin IA, README final y memoria.
